@@ -117,32 +117,25 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({
     setErrorMsg('');
   };
 
-  const performLogin = async (identifier: string) => {
+  const handleLogin = async () => {
     if (!identifier.trim()) {
       setErrorMsg('الرجاء إدخال الرمز أو اسم المستخدم');
       return;
     }
-
+    
     setIsSubmitting(true);
     setErrorMsg('');
 
-    try {
-      const ok = await loginWithPinOrUsername(identifier.trim());
-      if (ok) {
-        // Navigate to appropriate section view
-        if (onSuccessNavigate) {
-          if (activeSection === 'WAITER') onSuccessNavigate('waiter');
-          else if (activeSection === 'KITCHEN') onSuccessNavigate('kitchen');
-          else onSuccessNavigate('admin');
-        }
-      } else {
-        setErrorMsg('رمز الدخول أو الحساب غير مطابق لهذا القسم');
-      }
-    } catch (err: any) {
-      setErrorMsg(err.message || 'فشل الاتصال بالخادم المحلي');
-    } finally {
-      setIsSubmitting(false);
+    // Notice we are passing activeSection as the second argument
+    const result = await loginWithPinOrUsername(identifier.trim(), activeSection);
+
+    if (!result.success) {
+      setErrorMsg(result.error || 'رمز الدخول أو الحساب غير مطابق لهذا القسم');
+    } else {
+      console.log('Login successful');
     }
+    
+    setIsSubmitting(false);
   };
 
   const handleQuickLogin = (quickPin: string) => {
