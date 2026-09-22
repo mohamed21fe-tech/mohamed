@@ -18,17 +18,24 @@ const STORAGE_KEY_PENDING_ORDER = 'alshami_pending_cart';
 
 export const api = {
   // --- Auth ---
-  async login(identifier: string): Promise<{ success: boolean; user: User; error?: string }> {
-    const res = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identifier }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'فشل تسجيل الدخول');
+    async login(identifier: string, section: string): Promise<{ success: boolean; user?: any; error?: string }> {
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', { // Make sure your port is correct!
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ identifier, section }),
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        return { success: false, error: data.error || 'فشل تسجيل الدخول' };
+      }
+      
+      return { success: true, user: data.user };
+    } catch (error) {
+      return { success: false, error: 'فشل الاتصال بالخادم المحلي' };
     }
-    return data;
   },
 
   async getUsers(): Promise<User[]> {
