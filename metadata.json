@@ -1,0 +1,6 @@
+{
+  "name": "Baitna Al-Shami Restaurant POS",
+  "description": "Production-ready Syrian restaurant order management system with mobile Waiter PWA, real-time Kitchen Display System (KDS), thermal receipt printing, and floor management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

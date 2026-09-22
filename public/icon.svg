@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#0c0a09"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+  </defs>
+  <!-- Background with subtle border -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <rect x="12" y="12" width="488" height="488" rx="96" fill="none" stroke="url(#gold)" stroke-width="6" opacity="0.4"/>
+  
+  <!-- Syrian Arched Motif & Cloche/Plate -->
+  <g transform="translate(256, 230)" text-anchor="middle">
+    <!-- Damascene Arch Outline -->
+    <path d="M -130,80 C -130,-40 -80,-120 0,-150 C 80,-120 130,-40 130,80 Z" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linejoin="round" opacity="0.85"/>
+    <!-- Crescent accent on top -->
+    <circle cx="0" cy="-160" r="14" fill="#f59e0b" />
+    <circle cx="5" cy="-164" r="11" fill="#1c1917" />
+    <!-- Serving Cloche Base -->
+    <path d="M -90,70 Q 0,-30 90,70 Z" fill="url(#gold)" opacity="0.9"/>
+    <ellipse cx="0" cy="74" rx="105" ry="14" fill="#f59e0b"/>
+    <ellipse cx="0" cy="84" rx="115" ry="6" fill="#78350f" opacity="0.4"/>
+    <!-- Steam / Aroma Flourish -->
+    <path d="M -30,-40 Q -15,-65 -30,-85" fill="none" stroke="#fcd34d" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 0,-45 Q 15,-70 0,-95" fill="none" stroke="#fcd34d" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 30,-40 Q 45,-65 30,-85" fill="none" stroke="#fcd34d" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typography: بيتنا الشامي -->
+  <text x="256" y="380" font-family="'Cairo', 'Tajawal', sans-serif" font-size="44" font-weight="800" fill="#fef3c7" text-anchor="middle" letter-spacing="1">
+    بيتنا الشامي
+  </text>
+  <text x="256" y="420" font-family="sans-serif" font-size="20" font-weight="600" fill="#d97706" text-anchor="middle" letter-spacing="4">
+    RESTAURANT POS &amp; KDS
+  </text>
+</svg>
