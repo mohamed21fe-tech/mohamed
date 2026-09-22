@@ -76,17 +76,51 @@ async function startServer() {
   });
 
   // --- 2. REAL-TIME SERVER-SENT EVENTS (SSE) ---
-  app.get('/api/kitchen/events', (req: Request, res: Response) => {
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-    res.flushHeaders?.();
+  app.post('/api/auth/login', async (req, res) => {
+  const { identifier, section } = req.body;
 
-    const clientId = `sse-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
-    const role = (req.query.role as string) || 'WAITER';
+  if (!identifier || !section) {
+    return res.status(400).json({ success: false, error: 'الرجاء إدخال الرمز أو اسم المستخدم' });
+  }
 
-    eventBus.addClient(clientId, res, role);
-  });
+  try {
+    // ⚠️ IMPORTANT: Replace this line with your actual Database query!
+    // For example: const user = await User.findOne({ $or: [{ pin: identifier }, { username: identifier }] });
+    const user = await User.findOne({ 
+      $or: [{ pin: identifier }, { username: identifier }] 
+    });
+
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'رمز الدخول أو اسم المستخدم غير صحيح' });
+    }
+
+    // Define which roles can access which section
+    const rolePermissions: Record<string, string[]> = {
+      'WAITER': ['WAITER', 'CAPTAIN'],
+      'KITCHEN': ['KITCHEN'],
+      'ADMIN': ['ADMIN', 'MANAGER', 'CASHIER']
+    };
+
+    const allowedRoles = rolePermissions[section] || [];
+    
+    // Check if the user's role matches the requested section
+    if (!allowedRoles.includes(user.role)) {
+      return res.status(403).json({ 
+        success: false, 
+        error: 'رمز الدخول أو الحساب غير مطابق لهذا القسم' 
+      });
+    }
+
+    // Success
+    return res.json({ 
+      success: true, 
+      user: { id: user.id, name: user.name, role: user.role } 
+    });
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).json({ success: false, error: 'حدث خطأ في الخادم' });
+  }
+});
 
   // --- 3. TABLES ---
   app.get('/api/tables', (_req: Request, res: Response) => {
