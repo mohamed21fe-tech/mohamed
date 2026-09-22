@@ -34,19 +34,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const loginWithPinOrUsername = async (identifier: string): Promise<boolean> => {
-    try {
-      const res = await api.login(identifier);
-      if (res.success && res.user) {
-        setUser(res.user);
-        localStorage.setItem(DEMO_USER_STORAGE, JSON.stringify(res.user));
-        return true;
-      }
-      return false;
-    } catch (err) {
-      console.error('Login error:', err);
-      return false;
+   const loginWithPinOrUsername = async (identifier: string, section: string) => {
+    const response = await api.login(identifier, section);
+    
+    if (response.success && response.user) {
+      setUser(response.user);
+      localStorage.setItem('restaurant_user', JSON.stringify(response.user));
+      return { success: true };
     }
+    
+    return { success: false, error: response.error };
   };
 
   const switchRoleQuick = async (targetRole: UserRole) => {
